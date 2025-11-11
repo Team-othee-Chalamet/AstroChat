@@ -21,19 +21,33 @@ public class WebClientConfig {
     @Bean   //Create a WebClient for API contact
     public WebClient MistralClientBuilder(WebClient.Builder builder) {
         //Return a WebClient using the builder method in webclient
-        System.out.println(System.getenv("MISTRAL_API_KEY"));
         return builder.clone()
                 //The base URL for the Mistral API contact
                 .baseUrl("https://api.mistral.ai")
                 //Create one header, bearing the Auth token
                 .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + System.getenv("MISTRAL_API_KEY"))
                 .build();
+    }//JSON request format
+    /*
+    {
+  "model": "mistral-large-latest",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Return the name and ingredients of a French meal in a JSON object."
     }
-
+  ],
+  "response_format": {
+    "type": "json_object"
+  }
+}
+*/
     @Bean
     public WebClient AztroClient(WebClient.Builder builder) {
         return builder.clone()
                 .baseUrl("https://aztro.sameerkumar.website")
                 .build();
     }
+
+
 }

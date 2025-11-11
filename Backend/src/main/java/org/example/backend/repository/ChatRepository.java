@@ -2,22 +2,29 @@ package org.example.backend.repository;
 
 import jakarta.servlet.http.HttpSession;
 import org.example.backend.records.ChatMessage;
+import org.example.backend.records.ChatResponse;
+import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.List;
 
+@Repository
 public class ChatRepository {
     HttpSession httpSession;
 
-    private static HashMap<String, List<ChatMessage>> chatHistories = new HashMap<>();
+    public static HashMap<String, List<ChatMessage>> chatHistories = new HashMap<>();
 
     public static List<ChatMessage> getChatMessagesFromID(String id){
         return chatHistories.get(id);
     }
 
-    public static void saveMessage(String id, ChatMessage message){
+    public static Mono<ChatResponse> saveMessage(String id, Mono<ChatResponse> chatResponse){
         List<ChatMessage> messages = chatHistories.get(id);
-        messages.add(message);
+        messages.add(chatResponse.block().choices().getFirst().message());
         chatHistories.put(id, messages);
+
+        return chatResponse;
     }
+
 }

@@ -20,10 +20,9 @@ public class MistralService {
 
     //Send and recieve a message
     public Mono<ChatResponse> sendAndRecieveMessage(String id, ChatMessage message){
-        //ChatRepository.saveMessage(id, message);
-        //Find the existing list of messages from the repo
-        //List<ChatMessage> messages = ChatRepository.getChatMessagesFromID(id);
+        List<ChatMessage> messages = ChatService.saveUserMessage(id, message);
         //Send the complete list to mistral
-        return mistralClient.getChatResponse(List.of(message));
+        return mistralClient.getChatResponse(messages);
+        //return ChatRepository.saveMessage(id, mistralClient.getChatResponse(messages));
     }
 }
