@@ -1,4 +1,4 @@
 package org.example.backend.records;
 
-public record Horoscope() {
+public record Horoscope(String sign, String horoscope) {
 }
