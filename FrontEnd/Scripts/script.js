@@ -2,6 +2,22 @@ console.log("Connected to JS");
 
 document.addEventListener("DOMContentLoaded", () => {
 	console.log("Script started");
+	function generateSessionId() {
+		return (
+			Math.random().toString(36).substring(2, 15) + Date.now().toString(36)
+		);
+	}
+
+	let sessionId = generateSessionId();
+	console.log(sessionId);
+
+	let firstMessage = true;
+
+	var userName = "";
+	var userDate = "";
+
+	const url = "http://localhost:8080/api/astrochat";
+
 	setupEventListeners();
 
 	function setupEventListeners() {
@@ -10,29 +26,151 @@ document.addEventListener("DOMContentLoaded", () => {
 		document
 			.querySelector("#dateForm")
 			.addEventListener("submit", () => handleFormSubmit(event));
+
+		document
+			.querySelector("#chatSend")
+			.addEventListener("submit", () => handleChatSend(event));
 	}
 
-	var userName = "";
-	var userDate = "";
+	function handleChatSend(event) {
+		event.preventDefault();
+		const target = event.target;
+		const formData = new FormData(target);
+
+		sendMessage(formData.get("questionBox"), userName, userDate);
+	}
+
+	async function sendMessage(question, userName, userDate) {
+		addMessageToDom(question, "user");
+
+		let answer = "My child, the stars fail me. I have lost the vision beyond, and I am unable to help you at this time. May the currents of time guide you, when I cannot. Come back a little later, when the heavens once again open to me.";
+		if (firstMessage) {
+			try{
+				answer = await sendFirstMessage(question, userName, userDate);
+			}
+			catch{}
+		} else {
+			try{
+				answer = await sendFollowMessage(question);
+			}
+			catch{}
+		}
+
+		displayAnswer(answer);
+	}
+
+	function addMessageToDom(message, role) {
+		const messageDom = document.createElement("div");
+		messageDom.classList.add("message");
+
+		const roleChild = document.createElement("div");
+		roleChild.classList.add("roleLabel");
+
+		if (role === "ai") {
+			messageDom.classList.add("aiMessage");
+			roleChild.innerHTML = "Chataztro";
+		} else {
+			messageDom.classList.add("userMessage");
+			roleChild.innerHTML = userName;
+		}
+
+		messageDom.appendChild(roleChild);
+
+		const messageChild = document.createElement("div");
+		messageChild.classList.add("messageText");
+		messageChild.innerHTML = message;
+
+		messageDom.appendChild(messageChild);
+
+		const messageBox = document.querySelector("#answerTextBox");
+		messageBox.appendChild(messageDom);
+		messageBox.scrollTop = messageBox.scrollHeight;
+	}
+
+	function displayAnswer(answer) {
+		addMessageToDom(answer, "ai");
+
+		if (firstMessage) {
+			displayParchment();
+			firstMessage = false;
+		}
+	}
+
+	async function sendFirstMessage(question, userName, userDate) {
+		console.log("Sending the first message");
+
+		const message = {
+			name: userName,
+			date: userDate,
+			userMessage: question,
+			sessionId: sessionId,
+		};
+
+		const options = createFetchOptions("POST", message);
+		const res = await fetch(url + "/send", options);
+		return responseHandler(res);
+	}
+
+	async function sendFollowMessage(question) {
+		console.log("Sending a new message");
+
+		const message = {
+			userMessage: question,
+			sessionId: sessionId,
+		};
+
+		const options = createFetchOptions("POST", message);
+		const res = await fetch(url, options);
+		return responseHandler(res);
+	}
+
+	async function responseHandler(res) {
+		// 204 = no content
+		if (res.status === 204) {
+			return null;
+		}
+
+		if (!res.ok) {
+			throw new Error("HTTP error. status: " + res.status);
+		}
+
+		const contentType = res.headers.get("content-type") || "";
+		if (!contentType.includes("application/json")) {
+			return null;
+		}
+		return res.json();
+	}
+
+	function displayParchment() {
+		const parchment = document.querySelector("#answerParchment");
+		parchment.style.transform = "translate(160%, 10%)";
+	}
 
 	function handleFormSubmit(event) {
 		event.preventDefault();
 		console.log("Clicked Submit");
 
-        const target = event.target;
-        const formData = new FormData(target);
+		const target = event.target;
+		const formData = new FormData(target);
 
-        userName = formData.get('nameInput');
-        userDate = formData.get('dateInput');
+		userName = formData.get("nameInput");
+		userDate = formData.get("dateInput");
 
-        console.log(userDate + " " + userName);
+		console.log(userDate + " " + userName);
 
-        moveFormAndCurtains();
+		moveFormAndCurtains();
 	}
 
-    function moveFormAndCurtains(){
+	function moveFormAndCurtains() {
+		const form = document.querySelector("#dateForm");
+		form.style.transform = "translate(-50%, 300%)";
 
-    }
+		const leftCurtain = document.querySelector("#leftCurtain");
+		const rightCurtain = document.querySelector("#rightCurtain");
+
+		leftCurtain.style.transform = "translate(-100%, -30%) rotate(20deg)";
+		rightCurtain.style.transform = "translate(100%, -30%) rotate(-20deg)";
+	}
 
 	function updateHeadAndEyes(event) {
 		const headDomElement = document.querySelector(".headBox");
@@ -123,5 +261,26 @@ document.addEventListener("DOMContentLoaded", () => {
 	) {
 		const t = Math.max(0, Math.min(1, (value - inMin) / (inMax - inMin)));
 		return t * (outMax - outMin) + outMin;
+	}
+
+	// Method to build fetch type
+	function createFetchOptions(httpMethod, body, headers = {}) {
+
+		// buildes options obj
+		const options = {
+			method: httpMethod,
+			headers: {
+				Accept: "application/json",
+				...headers,
+			},
+		};
+
+		// Not all requests require a body, hence the if statement
+		if (body) {
+			// Converts the object to a JSON string
+			options.body = JSON.stringify(body);
+			options.headers["Content-Type"] = "application/json";
+		}
+		return options;
 	}
 });

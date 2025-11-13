@@ -17,19 +17,25 @@
                 <input type="date" placeholder="indtast din fødselsdato" required="true" name="dateInput">
                 <button id="formSubmitButton">submit</button>
             </form>
-            <img class="curtain leftCurtain" src="./../Resources/images/Closed_Theater_Curtains_Red_Transparent_PNG_Clip_Art_Image.png" alt="">
-            <img class="curtain rightCurtain" src="./../Resources/images/Closed_Theater_Curtains_Red_Transparent_PNG_Clip_Art_Image.png" alt="">
+            <img id="leftCurtain" class="curtain leftCurtain" src="./../Resources/images/Closed_Theater_Curtains_Red_Transparent_PNG_Clip_Art_Image.png" alt="">
+            <img id="rightCurtain" class="curtain rightCurtain" src="./../Resources/images/Closed_Theater_Curtains_Red_Transparent_PNG_Clip_Art_Image.png" alt="">
         </div>
 
 
 
 		<div class="fortuneTeller">
             
-            <div class="measureBox"></div>
             
             <h1 class="titleCard">The Great Chataztro!</h1>
-            <div class="questionBox">
-                <textarea placeholder="Skriv her"></textarea>
+            <form type="submit" class="questionBox" id="chatSend">
+                <textarea placeholder="Skriv her" name="questionBox" required="true"></textarea>
+                <button type="submit'">Send</button>
+            </form>
+
+            <div id="answerParchment" class="answerParchment">
+                <div class="answerTextBox" id="answerTextBox">
+                </div>
+                <img class="answerParchmentImg" src="./../Resources/images/Parchment.png" alt="">
             </div>
 
             <div class="backGround">
