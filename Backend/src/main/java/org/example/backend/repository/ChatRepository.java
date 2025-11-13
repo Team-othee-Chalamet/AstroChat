@@ -19,12 +19,12 @@ public class ChatRepository {
         return chatHistories.get(id);
     }
 
-    public static Mono<ChatResponse> saveMessage(String id, Mono<ChatResponse> chatResponse){
-        List<ChatMessage> messages = chatHistories.get(id);
-        messages.add(chatResponse.block().choices().getFirst().message());
-        chatHistories.put(id, messages);
-
-        return chatResponse;
-    }
+//    public static Mono<ChatResponse> saveMessage(String id, Mono<ChatResponse> chatResponse){
+//        List<ChatMessage> messages = chatHistories.get(id);
+//        messages.add(chatResponse.block().choices().getFirst().message();
+//        chatHistories.put(id, messages);
+//
+//        return chatResponse;
+//    }
 
 }
