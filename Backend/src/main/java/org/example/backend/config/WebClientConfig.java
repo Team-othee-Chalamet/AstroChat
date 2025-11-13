@@ -49,5 +49,11 @@ public class WebClientConfig {
                 .build();
     }
 
-
+    @Bean
+    public WebClient HoroscopeAPIVerveClientBuilder(WebClient.Builder builder) {
+        return builder.clone()
+                .baseUrl("https://api.apiverve.com/v1/horoscope")
+                .defaultHeader(HttpHeaders.AUTHORIZATION, "X-API-KEY " + System.getenv("HOROSCOPE_API_KEY"))
+                .build();
+    }
 }
