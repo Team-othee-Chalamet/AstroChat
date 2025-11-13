@@ -1,0 +1,323 @@
+body {
+	all: unset;
+	display: flex;
+	background-color: rgb(67, 4, 58);
+	font-family: papyrus;
+	color: white;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.landingCurtainsAndForm{
+    position: absolute;
+    z-index: 20;
+    width: 100vw;
+
+    .dateForm{
+        .backGroundForm{
+            z-index: -1;
+            position: absolute;
+            width: 160%;
+            top: 2%;
+        }
+        z-index: 30;
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 30px;
+        top: 50%;
+        left: 50%;
+
+        gap: 20px;
+
+        transition: 2s;
+
+        transform: translate(-50%, 50%);
+
+        input{
+            all: unset;
+            border-bottom: 1px dotted black;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        p{
+            margin: 0;
+        }
+
+        button{
+            all: unset;
+            background-color: red;
+            background-image: linear-gradient(to bottom, rgba(255, 185, 185, 0.483), rgba(133, 28, 28, 0.459));
+            box-shadow: 0px 0px 10px black, inset 2px 2px 4px pink, inset -2px -2px 3px darkred, inset 2px 2px 1px rgb(255, 255, 255);
+            padding: 10px;
+            border-radius: 10px;
+
+            transition: .2s;
+        }
+        button:hover{
+            cursor: pointer;
+            box-shadow: 5px 5px 15px black, inset 2px 2px 3px pink, inset -2px -2px 3px darkred, inset 2px 2px 1px rgb(255, 255, 255);
+        }
+    }
+
+    .curtain{
+        height: 110vh;
+        transition: 3s;
+        max-width: 80%;
+    }
+
+    .leftCurtain{
+        position: absolute;
+        left: -20%;
+        box-shadow: 30px 0px 30px black;
+    }
+    .rightCurtain{
+        position: absolute;
+        right: -20%;
+        box-shadow: -30px 0px 30px black;
+    }
+}
+
+
+.fortuneTeller {
+	position: absolute;
+	display: flex;
+	width: 100vw;
+    aspect-ratio: 16 / 9;
+	justify-content: center;
+    border: 1px solid blue;
+
+    .measureBox{
+        border: 1px solid yellow;
+        border-radius: 100%;
+        width: 23vw;
+        height: 23vw;
+        z-index: 10;
+    }
+
+    .answerParchment{
+        display: flex;
+        position: absolute;
+        justify-content: center;
+        width: 20%;
+        height: 80%;
+        transform: translate(420%, 10%);
+        transition: 1s;
+
+        .answerTextBox{
+            position: relative;
+            z-index: 20;
+            overflow: auto;
+
+            .message{
+                margin: 20px;
+                color: black;
+
+                .roleLabel{
+                    font-family: 'Brush Script MT', cursive;
+                    font-size: larger;
+                    font-weight: bolder;
+                }
+            }
+
+            .userMessage{
+                justify-content: right;
+                text-align: right;
+                border-right: 1px solid black;
+                padding-right: 10px;
+            }
+
+            .aiMessage{
+                justify-content: left;
+                text-align: left;
+                border-left: 1px solid black;
+                padding-left: 10px;
+            }
+        }
+
+        .answerParchmentImg{
+            position: absolute;
+            top: -6%;
+            width: 150%;
+            height: 120%;
+        }
+    }
+
+	z-index: 0;
+
+	.questionBox {
+		border-radius: 100%;
+        width: 23vw;
+        height: 23vw;
+        z-index: 10;
+        position: absolute;
+        bottom: -1.5%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transform: translate(2%, 0);
+
+        background-image: radial-gradient(rgb(0, 0, 0), rgba(0, 0, 0, 0));
+        opacity: 20%;
+
+        transition: .2s;
+
+        border: 1px solid white;
+	}
+
+	.questionBox textarea {
+		width: 80%;
+		height: 20%;
+		resize: none;
+		border: none;
+		outline: none;
+		background: transparent;
+		color: white;
+		font-family: "Papyrus", fantasy;
+		font-size: 1rem;
+		text-align: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+        padding: 40px;
+        overflow: auto;
+	}
+    .questionBox textarea::placeholder{
+        color: white;
+    }
+
+    .questionBox:hover{
+        opacity: 80%;
+    }
+
+    button{
+        all:unset;
+        padding: 20px;
+        border-radius: 999px;
+        background-color: rgba(240, 248, 255, 0.2);
+        box-shadow: inset 1px 1px 1px white, inset -1px -1px 3px rgb(255, 255, 255);
+        transition: .2s;
+    
+    }
+    button:hover{
+        cursor: pointer;
+        background-color: rgba(240, 248, 255, 0.5);
+    }
+}
+
+.backGround {
+	position: absolute;
+	display: flex;
+	width: 100vw;
+	height: auto;
+	justify-content: center;
+    z-index: -100;
+
+	.bodyImg {
+		position: absolute;
+		width: 100%;
+	}
+
+	.headBox {
+		display: flex;
+		position: absolute;
+		width: 25%;
+		height: auto;
+		justify-content: center;
+		align-items: center;
+
+		.headImg {
+			position: relative;
+			width: 100%;
+			z-index: 1;
+		}
+	}
+
+	.ballImg {
+		position: absolute;
+		width: 100%;
+	}
+
+	.eye {
+		z-index: 0;
+		display: flex;
+		position: absolute;
+		width: 18%;
+		height: 10%;
+		border-radius: 100%;
+		background-color: rgb(243, 243, 243);
+		background-image: radial-gradient(
+			rgba(255, 255, 255, 0) 55%,
+			rgba(246, 0, 0, 0.562) 95%
+		);
+	}
+
+	.firstEye {
+		top: 39%;
+		left: 27%;
+	}
+
+	.secondEye {
+		top: 39%;
+		left: 58%;
+	}
+
+	.eyeShine1 {
+		display: flex;
+		height: 30%;
+		width: 15%;
+		background-color: rgba(255, 255, 255, 0.9);
+		position: absolute;
+		top: 15%;
+		border-radius: 100%;
+		right: 15%;
+		z-index: 10;
+		rotate: -35deg;
+		filter: blur(2px);
+	}
+
+	.eyeShine2 {
+		display: flex;
+		height: 10%;
+		width: 8%;
+		background-color: rgba(255, 255, 255, 0.9);
+		position: absolute;
+		top: 50%;
+		border-radius: 100%;
+		right: 10%;
+		z-index: 10;
+		rotate: 10deg;
+		filter: blur(2px);
+	}
+
+	.iris {
+		display: flex;
+		position: absolute;
+		width: 50%;
+		height: 50%;
+		background-color: yellow;
+
+		background-image: radial-gradient(
+			rgba(255, 255, 255, 0),
+			rgba(246, 0, 0, 0.573)
+		);
+		border-radius: 100%;
+		top: 50%;
+		left: 50%;
+	}
+
+	.pupil {
+		width: 40%;
+		height: 40%;
+		background-color: black;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		border-radius: 100%;
+	}
+}
