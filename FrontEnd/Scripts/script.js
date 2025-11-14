@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	var userName = "";
 	var userDate = "";
 
+	EyesUp = false;
+
 	const url = "http://localhost:8080/api/astrochat";
 
 	setupEventListeners();
@@ -37,7 +39,31 @@ document.addEventListener("DOMContentLoaded", () => {
 		const target = event.target;
 		const formData = new FormData(target);
 
+		startThinking();
+		clearCrystalBall();
+
 		sendMessage(formData.get("questionBox"), userName, userDate);
+	}
+
+	function clearCrystalBall(){
+		const questionBox = document.querySelector("#questionBox");
+		questionBox.value = "";
+	}
+
+
+	function startThinking(){
+		EyesUp = true;
+
+		const sendButton = document.querySelector("#sendButton");
+		sendButton.style.transform = "translate(0, 300%)";
+		sendButton.innerHTML = "Thinking";
+	}
+
+	function stopThinking(){
+		EyesUp = false;
+		const sendButton = document.querySelector("#sendButton");
+		sendButton.style.transform = "translate(0, 0)";
+		sendButton.innerHTML = "Send";
 	}
 
 	async function sendMessage(question, userName, userDate) {
@@ -56,8 +82,13 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 			catch{}
 		}
-
+		stopThinking();
+		try{
 		displayAnswer(answer.choices[0].message.content);
+		}
+		catch{
+			displayAnswer("I had trouble consulting the stars. They seem to tell me: Error code: 500 - internal server error. I do not know what that means... weird stars huh?")
+		}
 	}
 
 	function addMessageToDom(message, role) {
@@ -223,11 +254,17 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	function updateEye(event, eyeDomElement) {
-		const mouseX = event.clientX;
-		const mouseY = event.clientY;
+		var mouseX = event.clientX;
+		var mouseY = event.clientY;
+
 		eyeBallRect = eyeDomElement.getBoundingClientRect();
 		const eyeX = eyeBallRect.left + eyeBallRect.width / 2;
 		const eyeY = eyeBallRect.top + eyeBallRect.height / 2;
+
+		if(EyesUp){
+			mouseX = eyeX;
+			mouseY = eyeY + -200;
+		}
 
 		const vectorX = mouseX - eyeX;
 		const vectorY = mouseY - eyeY;
