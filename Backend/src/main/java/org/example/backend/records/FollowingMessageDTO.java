@@ -1,4 +1,4 @@
 package org.example.backend.records;
 
-public record FollowingMessageDTO (String question, String sessionId){
+public record FollowingMessageDTO (String userMessage, String sessionId){
 }

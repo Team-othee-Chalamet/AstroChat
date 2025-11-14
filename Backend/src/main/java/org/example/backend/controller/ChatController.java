@@ -22,7 +22,7 @@ public class ChatController {
 
     @PostMapping
     public Mono<ChatResponse> subsequentChatResponseMono(@RequestBody FollowingMessageDTO followingMessageDTO){
-        return mistralService.sendAndReceiveMessage(followingMessageDTO.sessionId(), new ChatMessage("user", followingMessageDTO.question()));
+        return mistralService.sendAndReceiveMessage(followingMessageDTO.sessionId(), new ChatMessage("user", followingMessageDTO.userMessage()));
     }
 
     @PostMapping("/send")
@@ -31,7 +31,7 @@ public class ChatController {
         LocalDate birthday = LocalDate.parse(firstMessageDTO.date());
         String sign = String.valueOf(chatService.getHoroscope(birthday));
      // Vi skal sende en firstmessage sammen med vores prompt
-        ChatMessage firstChatMessage = chatService.setFirstChatMessage(firstMessageDTO.name(), birthday, firstMessageDTO.question());
+        ChatMessage firstChatMessage = chatService.setFirstChatMessage(firstMessageDTO.name(), birthday, firstMessageDTO.userMessage());
      // Vi skal returnere chat responset
         return mistralService.sendAndReceiveMessage(firstMessageDTO.sessionId(),firstChatMessage);
     }
