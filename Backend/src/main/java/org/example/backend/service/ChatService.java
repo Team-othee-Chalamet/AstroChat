@@ -48,7 +48,7 @@ public class ChatService {
         String horoscopeText = horoscope.horoscope();
         return new ChatMessage("system", "Hello, act in this chat as mystical fortune teller. Make replies brief, 100 words maximum but keep the" +
                 " strange mystical talking patterns. Remain vague and bizzare."+ "Base your response on the text from the persons horoscope: "
-                + horoscopeText + " Their name is: "+name + " Here is the users question: " + firstMessage);
+                + horoscopeText + " Their name is: "+name + " Here is the users question: " + firstMessage + ". Answer in the same language that they use.");
     }
 
     public Mono<Horoscope> getHoroscope(LocalDate birthDate) {
