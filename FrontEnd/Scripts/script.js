@@ -47,6 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (firstMessage) {
 			try{
 				answer = await sendFirstMessage(question, userName, userDate);
+				console.log(answer.choices[0].message.content);
 			}
 			catch{}
 		} else {
@@ -56,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			catch{}
 		}
 
-		displayAnswer(answer);
+		displayAnswer(answer.choices[0].message.content);
 	}
 
 	function addMessageToDom(message, role) {
